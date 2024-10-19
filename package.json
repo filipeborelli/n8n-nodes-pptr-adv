@@ -1,0 +1,61 @@
+{
+  "name": "n8n-nodes-pptr-adv",
+  "version": "0.1.0",
+  "description": "N8n node for requesting webpages using Puppeteer",
+  "license": "MIT",
+  "homepage": "https://github.com/filipeborelli/n8n-nodes-pptr-adv",
+  "author": {
+      "name": "Filipe Borelli",
+      "email": "filipeborelli1@hotmail.com"
+  },
+  "repository": {
+      "type": "git",
+      "url": "git+https://github.com/filipeborelli/n8n-nodes-pptr-adv.git"
+  },
+  "main": "index.js",
+  "scripts": {
+      "dev": "npm run watch",
+      "build": "tsc && gulp",
+      "lint": "tslint -p tsconfig.json -c tslint.json",
+      "lintfix": "tslint --fix -p tsconfig.json -c tslint.json",
+      "nodelinter": "nodelinter",
+      "watch": "tsc --watch"
+  },
+  "files": [
+      "dist"
+  ],
+  "keywords": [
+      "n8n",
+      "node",
+      "puppeteer",
+      "scraper",
+      "screenshot",
+      "pdf",
+      "n8n-node",
+      "n8n-community-node-package"
+  ],
+  "n8n": {
+      "n8nNodesApiVersion": 1,
+      "credentials": [],
+      "nodes": [
+          "dist/nodes/Puppeteer/Puppeteer.node.js"
+      ]
+  },
+  "devDependencies": {
+      "@typescript-eslint/parser": "^7.15.0",
+      "eslint": "^8.56.0",
+      "eslint-plugin-n8n-nodes-base": "^1.16.1",
+      "gulp": "^5.0.0",
+      "n8n-workflow": "*",
+      "prettier": "^3.3.2",
+      "typescript": "^5.5.3"
+  },
+  "peerDependencies": {
+      "n8n-workflow": "*"
+  },
+  "dependencies": {
+      "puppeteer": "^18.2.1",
+      "puppeteer-extra": "^3.3.6",
+      "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}
