@@ -81,6 +81,11 @@ export const nodeDescription: INodeTypeDescription = {
 					value: "connectBrowser",
 					description: "Connect to an existing browser instance",
 				},
+				{
+					name: "Close",
+					value: "closeBrowser",
+					description: "Close the browser instance",
+				},
 			],
 			default: "launchBrowser",
 			displayOptions: {
