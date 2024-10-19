@@ -68,11 +68,21 @@ export const nodeDescription: INodeTypeDescription = {
 		{
 			displayName: "Browser Operation",
 			name: "browserOperation",
-			type: "string",
+			type: "options",
 			required: true,
-			default: "data",
-			description:
-				"Operation to perform on the browser",
+			options: [
+				{
+					name: "Launch",
+					value: "launchBrowser",
+					description: "Launch a new browser instance",
+				},
+				{
+					name: "Connect",
+					value: "connectBrowser",
+					description: "Connect to an existing browser instance",
+				},
+			],
+			default: "launchBrowser",
 			displayOptions: {
 				show: {
 					operation: ["browser"],
