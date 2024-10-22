@@ -26,7 +26,7 @@ export const PageOperations: INodeProperties[] = [
         default: "",
         displayOptions: {
             show: {
-                operation: ["pageContext"],
+                browserContext: ["pageContext"],
             },
         },
     },
@@ -38,7 +38,7 @@ export const PageOperations: INodeProperties[] = [
         default: "",
         displayOptions: {
             show: {
-                operation: ["page$","pageEvaluate"],
+                pageOperation: ["page$","pageEvaluate"],
             },
         },
     },
@@ -49,7 +49,7 @@ export const PageOperations: INodeProperties[] = [
         default: {},
         displayOptions: {
             show: {
-                operation: ["page$","pageAddScriptTag"],
+                pageOperation: ["page$","pageAddScriptTag"],
             },
         },
     },
@@ -65,7 +65,7 @@ export const PageOperations: INodeProperties[] = [
         },
         displayOptions: {
             show: {
-                operation: ["pageEvaluate"],
+                pageOperation: ["pageEvaluate"],
             },
         },
     },

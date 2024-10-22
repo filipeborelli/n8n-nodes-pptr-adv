@@ -4,7 +4,7 @@ import { PageOperations } from "./Page";
 export const ContextOperations: INodeProperties[] = [
     {
         displayName: "Context",
-        name: "context",
+        name: "browserContext",
         type: "options",
         options: [
             {
