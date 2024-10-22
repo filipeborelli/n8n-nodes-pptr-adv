@@ -45,8 +45,12 @@ export const PageOperations: INodeProperties[] = [
     {
         displayName: "Options",
         name: "pageOptions",
-        type: "json",
-        default: {},
+        type: "string",
+        default: "",
+        typeOptions:{
+            editor: "codeNodeEditor",
+            editorLanguage: "json",
+        },
         displayOptions: {
             show: {
                 pageOperation: ["page$","pageAddScriptTag"],
@@ -58,7 +62,7 @@ export const PageOperations: INodeProperties[] = [
         displayName: "Javascript Function",
         name: "pageEvaluateFunction",
         type: "string",
-        default: "",
+        default: "// Run a javascript function on the page\n await page.evaluate(() => {\n console.log('Hello from the browser'); \n});",
         typeOptions: {
             editor: "codeNodeEditor",
             editorLanguage: "javaScript",
