@@ -6,9 +6,6 @@ import {
 	INodeTypeDescription,
 	ILoadOptionsFunctions,
 	INodePropertyOptions,
-	ConnectionTypes,
-	INodeOutputConfiguration,
-	ExpressionString,
 } from 'n8n-workflow';
 
 import { devices } from 'puppeteer';
