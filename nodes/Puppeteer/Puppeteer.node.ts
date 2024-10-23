@@ -40,12 +40,12 @@ export class Puppeteer implements INodeType {
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-		const handleBrowserClose = this.getNodeParameter('handleBrowserClose', 0) as boolean;
+		const browserOptions = this.getNodeParameter('browserOptions', 0,{}) as IDataObject;
 		const handleBrowserInfos = this.getNode().name;
-		console.log(handleBrowserClose, "handleBrowserClose",handleBrowserInfos)
+		console.log("handleBrowserClose",handleBrowserInfos)
 		// Se o handleBrowserClose estiver ativado, chama addOutputPort
-		if (handleBrowserClose) {
-			 AddOutputPort(handleBrowserClose)
+		if (browserOptions.handleBrowserClose) {
+			 AddOutputPort(browserOptions)
 		}
 		const returnData: IDataObject[] = [];
 		return [this.helpers.returnJsonArray(returnData)];
