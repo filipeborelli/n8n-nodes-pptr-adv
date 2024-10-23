@@ -94,6 +94,22 @@ const BrowserOptions: INodeProperties[] = [
                 description: "When browser is closed, the browser process",
             },
             {
+                displayName: "Handle Target",
+                name: "handleTarget",
+                type: "boolean",
+                required: false,
+                default: false,
+                description: "When target created or destroyed, the target process",
+            },
+            {
+                displayName: "Handle Browser Disccconect",
+                name: "handleBrowserDisconnect",
+                type: "boolean",
+                required: false,
+                default: false,
+                description: "When browser is disconnected, the browser process",
+            },
+            {
                 displayName: "Stealth mode",
                 name: "stealth",
                 type: "boolean",
