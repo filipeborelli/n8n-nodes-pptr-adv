@@ -21,6 +21,7 @@ export const nodeDescription: INodeTypeDescription = {
 		displayName: "onBrowserClose",
 		category: "error",
 	},
+"main",
 "main"],
 	properties: [
 		...BrowserOperations,
