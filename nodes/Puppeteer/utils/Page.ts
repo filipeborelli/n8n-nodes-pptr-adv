@@ -21,6 +21,11 @@ export const PageOperations: INodeProperties[] = [
                 value: "pageAddScriptTag",
                 description: "Add a script tag to the page",
             },
+            {
+                name: "Click",
+                value: "pageClick",
+                description: "Click on the selector",
+            },
         ],
         required: true,
         default: "",
@@ -38,22 +43,18 @@ export const PageOperations: INodeProperties[] = [
         default: "",
         displayOptions: {
             show: {
-                pageOperation: ["page$","pageEvaluate"],
+                pageOperation: ["page$","pageEvaluate","pageClick"],
             },
         },
     },
     {
         displayName: "Options",
         name: "pageOptions",
-        type: "string",
+        type: "json",
         default: "",
-        typeOptions:{
-            editor: "codeNodeEditor",
-            editorLanguage: "json",
-        },
         displayOptions: {
             show: {
-                pageOperation: ["page$","pageAddScriptTag"],
+                pageOperation: ["page$","pageAddScriptTag","pageClick"],
             },
         },
     },
@@ -62,7 +63,7 @@ export const PageOperations: INodeProperties[] = [
         displayName: "Javascript Function",
         name: "pageEvaluateFunction",
         type: "string",
-        default: "// Run a javascript function on the page\n await page.evaluate(() => {\n console.log('Hello from the browser'); \n});",
+        default: "// Run a javascript function on the page\nawait page.evaluate(() => {\n console.log('Hello from the browser'); \n});",
         typeOptions: {
             editor: "codeNodeEditor",
             editorLanguage: "javaScript",
