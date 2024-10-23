@@ -91,9 +91,6 @@ const BrowserOptions: INodeProperties[] = [
                 type: "boolean",
                 required: false,
                 default: false,
-                typeOptions: {
-                    loadOptionsMethod: "handleOutputPorts",
-                },
                 description: "When browser is closed, the browser process",
             },
             {
