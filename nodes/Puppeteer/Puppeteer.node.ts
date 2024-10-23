@@ -13,7 +13,7 @@ import { devices } from 'puppeteer';
 import {
 	nodeDescription,
 } from './Puppeteer.node.options';
-import { AddOutputPort } from './actions/OutputPorts';
+import { OutPutPorts } from './utils/Cache';
 
 export class Puppeteer implements INodeType {
 	description: INodeTypeDescription = nodeDescription;
@@ -35,18 +35,27 @@ export class Puppeteer implements INodeType {
 
 				return returnData;
 			},
+			async handleOutputPorts(this: ILoadOptionsFunctions): Promise<any> {
+				const browserOptions = this.getNodeParameter('browserOptions', 0,{}) as IDataObject;
+				if (browserOptions.handleBrowserClose) {
+					OutPutPorts.push({
+						name: "On browser close",
+						value: "onBrowserClose",
+						description: "Triggered when the browser closes",
+					})
+				}else{
+					const findPort = OutPutPorts.find((port: any)=> port?.value === "onBrowserClose");
+					if(findPort){
+						OutPutPorts.splice(OutPutPorts.indexOf(findPort), 1);
+					}
+				}
+			},
 		},
 		
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-		const browserOptions = this.getNodeParameter('browserOptions', 0,{}) as IDataObject;
-		const handleBrowserInfos = this.getNode().name;
-		console.log("handleBrowserClose",handleBrowserInfos)
-		// Se o handleBrowserClose estiver ativado, chama addOutputPort
-		if (browserOptions.handleBrowserClose) {
-			 AddOutputPort(browserOptions)
-		}
+
 		const returnData: IDataObject[] = [];
 		return [this.helpers.returnJsonArray(returnData)];
 		
