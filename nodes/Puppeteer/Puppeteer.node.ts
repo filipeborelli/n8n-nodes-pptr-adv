@@ -35,13 +35,10 @@ export class Puppeteer implements INodeType {
 				return returnData;
 			},
 		},
-		
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-
 		const returnData: IDataObject[] = [];
 		return [this.helpers.returnJsonArray(returnData)];
-		
 	}
 }
