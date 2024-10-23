@@ -1,5 +1,6 @@
 import { INodeTypeDescription } from "n8n-workflow";
 import { BrowserOperations } from "./utils/Browser";
+import { configuredOutputs } from "./utils/Outputs";
 
 /**
  * Options to be displayed
@@ -16,13 +17,7 @@ export const nodeDescription: INodeTypeDescription = {
 	},
 	icon: "file:puppeteer.svg",
 	inputs: ["main"],
-	outputs: ["main",{
-		type: "main",
-		displayName: "onBrowserClose",
-		category: "error",
-	},
-"main",
-"main"],
+	outputs: `={{(${configuredOutputs})($parameter)}}`,
 	properties: [
 		...BrowserOperations,
 	],
