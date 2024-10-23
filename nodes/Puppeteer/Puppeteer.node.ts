@@ -13,7 +13,7 @@ import { devices } from 'puppeteer';
 import {
 	nodeDescription,
 } from './Puppeteer.node.options';
-import { OutPutPorts } from './utils/Cache';
+import { AddOutputPort } from './actions/OutputPorts';
 
 export class Puppeteer implements INodeType {
 	description: INodeTypeDescription = nodeDescription;
@@ -35,23 +35,16 @@ export class Puppeteer implements INodeType {
 
 				return returnData;
 			},
-			async addOutputPort(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
-				const nodeInfos = this.getNodeParameter('handleBrowserClose', 0) as IDataObject;
-				console.log(nodeInfos, "minhas infos");
-				const returnData: INodePropertyOptions[] = [];
-				OutPutPorts.push({
-					type: "main",
-					category: "error",
-					displayName: "On browser close",
-				});
-				return returnData;
-			}
-			
 		},
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+		const handleBrowserClose = this.getNodeParameter('handleBrowserClose', 0) as boolean;
 
+		// Se o handleBrowserClose estiver ativado, chama addOutputPort
+		if (handleBrowserClose) {
+			 AddOutputPort(handleBrowserClose)
+		}
 		const returnData: IDataObject[] = [];
 		return [this.helpers.returnJsonArray(returnData)];
 		
