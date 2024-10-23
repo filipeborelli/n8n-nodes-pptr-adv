@@ -1,6 +1,5 @@
 import { INodeTypeDescription } from "n8n-workflow";
 import { BrowserOperations } from "./utils/Browser";
-import { ContextOperations } from "./utils/Context";
 
 /**
  * Options to be displayed
@@ -20,6 +19,5 @@ export const nodeDescription: INodeTypeDescription = {
 	outputs: ["main"],
 	properties: [
 		...BrowserOperations,
-		...ContextOperations
 	],
 };

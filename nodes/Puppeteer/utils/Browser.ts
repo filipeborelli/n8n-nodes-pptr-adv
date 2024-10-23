@@ -1,33 +1,33 @@
 import { INodeProperties } from "n8n-workflow";
+import { PageOperations } from "./Page";
 
-export const BrowserOperations: INodeProperties[] = [
+
+const BrowserOptions: INodeProperties[] = [
     {
-        displayName: "Operation",
-        name: "operation",
+        displayName: "Action",
+        name: "browserActions",
         type: "options",
         options: [
             {
-                name: "Launch",
-                value: "launchBrowser",
-                description: "Launch a new browser instance",
+                name: "New Page",
+                value: "newPage",
+                description: "Create a new page in the browser instance.",
             },
             {
-                name: "Connect",
-                value: "connectBrowser",
-                description: "Connect to an existing browser instance",
+                name: "Targets",
+                value: "targets",
+                description: "Get the list of targets in the browser instance.",
+            },
+            {
+                name: "Close",
+                value: "closeBrowser",
+                description: "Close the browser instance.",
             },
         ],
-        default: "launchBrowser",
-    },
-    {
-        displayName: "Browser WSEndpoint",
-        name: "browserWSEndpoint",
-        type: "string",
-        required: true,
-        default: "",
+        default: "newPage",
         displayOptions: {
             show: {
-                operation: ["connectBrowser"],
+                operation: ["browserContext"],
             },
         },
     },
@@ -38,6 +38,15 @@ export const BrowserOperations: INodeProperties[] = [
         placeholder: "Add Option",
         default: {},
         options: [
+            {
+                displayName: "Browser WSEndpoint",
+                name: "browserWSEndpoint",
+                type: "string",
+                required: false,
+                default: "",
+                description:
+                    "A browser websocket endpoint to connect to. If specified, the browser will be connected to this browser instance.",
+            },
             {
                 displayName: "Emulate Device",
                 name: "device",
@@ -77,15 +86,6 @@ export const BrowserOperations: INodeProperties[] = [
                 ],
             },
             {
-                displayName: "Headless mode",
-                name: "headless",
-                type: "boolean",
-                required: false,
-                default: true,
-                description:
-                    "Whether to run browser in headless mode. Defaults to true.",
-            },
-            {
                 displayName: "Stealth mode",
                 name: "stealth",
                 type: "boolean",
@@ -106,8 +106,53 @@ export const BrowserOperations: INodeProperties[] = [
         ],
         displayOptions: {
             show: {
-                operation: ["connectBrowser", "launchBrowser"],
+                browserActions: ["newPage"],
             },
         },
     },
 ]
+
+export const BrowserOperations: INodeProperties[] = [
+
+    {
+        displayName: "Instance Identifier",
+        name: "instanceId",
+        description: "A unique identifier for the browser and page instance, used to reference the same instance in multiple nodes.",
+        type: "string",
+        required: false,
+        default: "",
+    },
+    {
+        displayName: "Operation",
+        name: "operation",
+        type: "options",
+        options: [
+            {
+                name: "Browser",
+                value: "browserContext",
+                description: "Use the browser context",
+            },
+            {
+                name: "Page",
+                value: "pageContext",
+                description: "Use the page context",
+            },
+            {
+                name: "Locator",
+                value: "locatorContext",
+                description: "Use the locator context",
+            },
+            {
+                name: "CDPSession",
+                value: "cdpSessionContext",
+                description: "Use the CDP session context",
+            },
+        ],
+        default: "browserContext",
+    },
+    ...BrowserOptions,
+    ...PageOperations
+   
+]
+
+
