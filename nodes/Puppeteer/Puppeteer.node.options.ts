@@ -1,5 +1,6 @@
 import { INodeTypeDescription } from "n8n-workflow";
 import { BrowserOperations } from "./utils/Browser";
+import { OutPutPorts } from "./utils/Cache";
 
 /**
  * Options to be displayed
@@ -16,7 +17,7 @@ export const nodeDescription: INodeTypeDescription = {
 	},
 	icon: "file:puppeteer.svg",
 	inputs: ["main"],
-	outputs: ["main"],
+	outputs: OutPutPorts,
 	properties: [
 		...BrowserOperations,
 	],

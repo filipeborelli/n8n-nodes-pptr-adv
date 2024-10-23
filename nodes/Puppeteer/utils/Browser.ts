@@ -86,6 +86,18 @@ const BrowserOptions: INodeProperties[] = [
                 ],
             },
             {
+                displayName: "Handle Browser Close",
+                name: "handleBrowserClose",
+                type: "boolean",
+                required: false,
+                default: false,
+                typeOptions: {
+                    loadOptionsMethod: "addOutputPort",
+                },
+                description:
+                    "When browser is closed, the browser process",
+            },
+            {
                 displayName: "Stealth mode",
                 name: "stealth",
                 type: "boolean",

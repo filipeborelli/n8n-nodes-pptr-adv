@@ -6,6 +6,9 @@ import {
 	INodeTypeDescription,
 	ILoadOptionsFunctions,
 	INodePropertyOptions,
+	ConnectionTypes,
+	INodeOutputConfiguration,
+	ExpressionString,
 } from 'n8n-workflow';
 
 import { devices } from 'puppeteer';
@@ -13,6 +16,7 @@ import { devices } from 'puppeteer';
 import {
 	nodeDescription,
 } from './Puppeteer.node.options';
+import { OutPutPorts } from './utils/Cache';
 
 export class Puppeteer implements INodeType {
 	description: INodeTypeDescription = nodeDescription;
@@ -33,8 +37,20 @@ export class Puppeteer implements INodeType {
 				}
 
 				return returnData;
+			},
+			async addOutputPort(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				const nodeInfos = this.getNodeParameter('handleBrowserClose', 0) as IDataObject;
+				console.log(nodeInfos, "minhas infos");
+				const returnData: INodePropertyOptions[] = [];
+				OutPutPorts.push({
+					type: "main",
+					category: "error",
+					displayName: "On browser close",
+				});
+				return returnData;
 			}
-		}
+			
+		},
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
