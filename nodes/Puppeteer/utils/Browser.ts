@@ -140,10 +140,10 @@ export const BrowserOperations: INodeProperties[] = [
 
     {
         displayName: "Instance Identifier",
-        name: "instanceId",
+        name: "instance",
         description: "A unique identifier for the browser and page instance, used to reference the same instance in multiple nodes.",
         type: "string",
-        required: false,
+        required: true,
         default: "",
     },
     {

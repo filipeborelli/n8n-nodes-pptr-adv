@@ -8,7 +8,7 @@ export const PageOperations: INodeProperties[] = [
         options: [
             {
                 name: "Page Go To",
-                value: "pageGoTo",
+                value: "pageGoto",
                 description: "Navigate to the URL",
             },
             {
@@ -118,7 +118,7 @@ export const PageOperations: INodeProperties[] = [
         default: "",
         displayOptions: {
             show: {
-                pageOperation: ["pageGoTo"],
+                pageOperation: ["pageGoto"],
             },
         },
     },
@@ -183,7 +183,7 @@ export const PageOperations: INodeProperties[] = [
         default: "",
         displayOptions: {
             show: {
-                pageOperation: ["page$","pageAddScriptTag","pageClick","pageGoTo","pageType","pageGoBack","pageGoForward","pageReload","pageWaitForSelector","pageWaitForNavigation","pageWaitForFunction","pageWaitForFrame","pageWaitForRequest"],
+                pageOperation: ["page$","pageAddScriptTag","pageClick","pageGoto","pageType","pageGoBack","pageGoForward","pageReload","pageWaitForSelector","pageWaitForNavigation","pageWaitForFunction","pageWaitForFrame","pageWaitForRequest"],
             },
         },
     },

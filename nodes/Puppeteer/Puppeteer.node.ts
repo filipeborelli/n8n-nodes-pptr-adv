@@ -13,6 +13,11 @@ import { devices } from 'puppeteer';
 import {
 	nodeDescription,
 } from './Puppeteer.node.options';
+import { startBrowser } from '../core/start';
+import { pageGoto } from '../core/pageGoto';
+import { pageClick } from '../core/pageClick';
+import { pageWaitForSelector } from '../core/pageWaitForSelector';
+import { pageType } from '../core/pageType';
 
 export class Puppeteer implements INodeType {
 	description: INodeTypeDescription = nodeDescription;
@@ -38,6 +43,68 @@ export class Puppeteer implements INodeType {
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+		const nodeName = this.getNode().name
+		const instance = this.getNodeParameter('instance', 0) as string;
+
+		if(nodeName === "operation"){
+			const operation = this.getNodeParameter('operation', 0) as string;
+			if(operation === "browserContext"){
+				const browserOptions = this.getNodeParameter('browserOptions', 0) as IDataObject;
+				const browserAction = this.getNodeParameter('browserActions', 0) as string;
+				if(browserAction === "newPage") {
+					await startBrowser({
+						instance,
+						options: browserOptions
+					})
+				}
+			}
+
+			if(operation === "pageContext"){
+				const pageAction = this.getNodeParameter('pageOperation', 0) as string;
+				if(pageAction === "pageGoto") {
+					const url = this.getNodeParameter('pageUrl', 0) as string;
+					const options = this.getNodeParameter('pageOptions', 0) as IDataObject;
+					await pageGoto({
+						instance,
+						url,
+						options
+					})
+				}
+
+				if(pageAction === "pageClick") {
+					const selector = this.getNodeParameter('pageSelector', 0) as string;
+					const options = this.getNodeParameter('pageOptions', 0) as IDataObject;
+					await pageClick({
+						instance,
+						selector,
+						options
+					})
+				}
+
+				if(pageAction === "pageWaitForSelector") {
+					const selector = this.getNodeParameter('pageSelector', 0) as string;
+					const options = this.getNodeParameter('pageOptions', 0) as IDataObject;
+					await pageWaitForSelector({
+						instance,
+						selector,
+						options
+					})
+				}
+
+				if(pageAction === "pageType") {
+					const selector = this.getNodeParameter('pageSelector', 0) as string;
+					const options = this.getNodeParameter('pageOptions', 0) as IDataObject;
+					const text = this.getNodeParameter('pageTypeText', 0) as string;
+
+					await pageType({
+						instance,
+						selector,
+						text,
+						options
+					})
+				}
+			}
+		}
 		const returnData: IDataObject[] = [];
 		return [this.helpers.returnJsonArray(returnData)];
 	}
