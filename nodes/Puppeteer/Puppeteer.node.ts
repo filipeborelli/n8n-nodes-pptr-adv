@@ -43,69 +43,107 @@ export class Puppeteer implements INodeType {
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-		const nodeName = this.getNode().name
-		const instance = this.getNodeParameter('instance', 0) as string;
-
-		if(nodeName === "operation"){
-			const operation = this.getNodeParameter('operation', 0) as string;
-			if(operation === "browserContext"){
-				const browserOptions = this.getNodeParameter('browserOptions', 0) as IDataObject;
-				const browserAction = this.getNodeParameter('browserActions', 0) as string;
-				if(browserAction === "newPage") {
-					await startBrowser({
-						instance,
-						options: browserOptions
-					})
-				}
-			}
-
-			if(operation === "pageContext"){
-				const pageAction = this.getNodeParameter('pageOperation', 0) as string;
-				if(pageAction === "pageGoto") {
-					const url = this.getNodeParameter('pageUrl', 0) as string;
-					const options = this.getNodeParameter('pageOptions', 0) as IDataObject;
-					await pageGoto({
-						instance,
-						url,
-						options
-					})
-				}
-
-				if(pageAction === "pageClick") {
-					const selector = this.getNodeParameter('pageSelector', 0) as string;
-					const options = this.getNodeParameter('pageOptions', 0) as IDataObject;
-					await pageClick({
-						instance,
-						selector,
-						options
-					})
-				}
-
-				if(pageAction === "pageWaitForSelector") {
-					const selector = this.getNodeParameter('pageSelector', 0) as string;
-					const options = this.getNodeParameter('pageOptions', 0) as IDataObject;
-					await pageWaitForSelector({
-						instance,
-						selector,
-						options
-					})
-				}
-
-				if(pageAction === "pageType") {
-					const selector = this.getNodeParameter('pageSelector', 0) as string;
-					const options = this.getNodeParameter('pageOptions', 0) as IDataObject;
-					const text = this.getNodeParameter('pageTypeText', 0) as string;
-
-					await pageType({
-						instance,
-						selector,
-						text,
-						options
-					})
+		const returnData: INodeExecutionData[] = [];
+		const instance = this.getNodeParameter('instance', 0,{}) as string;
+		const operation = this.getNodeParameter('operation', 0,{}) as string;
+		let returnItem: any;
+		console.log(operation, instance, "minhas operações")
+		if (operation === "browserContext") {
+			const options = this.getNodeParameter('browserOptions', 0,{}) as IDataObject;
+			const browserAction = this.getNodeParameter('browserActions', 0,{}) as string;
+			if (browserAction === "newPage") {
+				const result = await startBrowser({
+					instance,
+					options
+				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							status: result?.status,
+							message: result?.message
+						}
+					 }
 				}
 			}
 		}
-		const returnData: IDataObject[] = [];
-		return [this.helpers.returnJsonArray(returnData)];
+
+		if (operation === "pageContext") {
+			const pageAction = this.getNodeParameter('pageOperation', 0,{}) as string;
+			if (pageAction === "pageGoto") {
+				const url = this.getNodeParameter('pageUrl', 0,{}) as string;
+				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
+				const result = await pageGoto({
+					instance,
+					url,
+					options
+				})
+				if(result?.statusCode !== 200){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								headers: result?.headers,
+								statusCode: result?.statusCode
+							}
+						 }
+					}else{
+						throw new Error(`Request failed with status code ${result?.statusCode}`)
+					}
+				}else{
+					returnItem = {
+						json: {
+							headers: result?.headers,
+							statusCode: result?.statusCode
+						}
+					 }
+				}
+			}
+
+			if (pageAction === "pageClick") {
+				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;
+				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
+				await pageClick({
+					instance,
+					selector,
+					options
+				})
+			}
+
+			if (pageAction === "pageWaitForSelector") {
+				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;
+				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
+				await pageWaitForSelector({
+					instance,
+					selector,
+					options
+				})
+			}
+
+			if (pageAction === "pageType") {
+				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;
+				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
+				const text = this.getNodeParameter('pageTypeText', 0,{}) as string;
+
+				await pageType({
+					instance,
+					selector,
+					text,
+					options
+				})
+			}
+		}
+		if(returnItem){
+			returnData.push(returnItem)
+		}
+		return this.prepareOutputData(returnData);
 	}
 }

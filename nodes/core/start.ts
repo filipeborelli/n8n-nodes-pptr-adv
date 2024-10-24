@@ -21,30 +21,54 @@ export const startBrowser = async (data: IStart) => {
         if (options.proxyServer) {
                 args.push(`--proxy-server=${options.proxyServer}`);
         }
+        try {
+                if (stealth) {
+                        puppeteer.use(pluginStealth());
+                }
 
-        if (stealth) {
-                puppeteer.use(pluginStealth());
+        } catch (error) {
+                return {
+                        error: "Error to use pluginStealth"
+                }
         }
 
 
         if (options.browserWSEndpoint) {
-                browser = await puppeteer.connect({
-                        browserWSEndpoint: options.browserWSEndpoint,
-                        ignoreHTTPSErrors: true,
-                });
+                try {
+                        browser = await puppeteer.connect({
+                                browserWSEndpoint: options.browserWSEndpoint,
+                                ignoreHTTPSErrors: true,
+                        });
+                } catch (error: any) {
+                        return {
+                                error: error?.message || "Error to connect to browser"
+                        }
+                }
         } else {
-                browser = await puppeteer.launch({
-                        headless: true,
-                        args,
-                        ignoreHTTPSErrors: true,
-                });
+                try {
+                        browser = await puppeteer.launch({
+                                headless: true,
+                                args,
+                                ignoreHTTPSErrors: true,
+                        });
+                } catch (error: any) {
+                        return {
+                                error: error?.message || "Error to launch to browser"
+                        }
+                }
         }
 
-        page = await browser.newPage();
+        try {
+                page = await browser.newPage();
+        } catch (error: any) {
+                return {
+                        error: error?.message || "Error to create new page"
+                }
+        }
         state[instance].page = page;
         state[instance].browser = browser;
         return {
-                browser,
-                page,
+                status: "success",
+                message: "Browser started successfully"
         }
 }
