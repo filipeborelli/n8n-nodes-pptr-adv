@@ -1,5 +1,5 @@
 import { IPageClick } from "./dto/interface";
-import { state } from "../utils/Cache";
+import { state } from "../state";
 
 export const pageClick = async (data: IPageClick) => {
         const { instance, selector, options } = data;

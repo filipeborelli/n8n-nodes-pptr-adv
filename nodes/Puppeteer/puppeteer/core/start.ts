@@ -2,8 +2,8 @@ import { IDataObject } from "n8n-workflow";
 import { IStart } from "./dto/interface";
 import puppeteer from "puppeteer-extra";
 import pluginStealth from "puppeteer-extra-plugin-stealth";
-import { Browser } from "puppeteer";
-import { state } from "../utils/Cache";
+import { Browser, Page } from "puppeteer";
+import { state } from "../state";
 
 export const startBrowser = async (data: IStart) => {
         const { instance, options } = data;
@@ -12,6 +12,7 @@ export const startBrowser = async (data: IStart) => {
         const launchArgs: IDataObject[] = launchArguments.args as IDataObject[];
         const args: string[] = [];
         let browser: Browser;
+        let page: Page;
 
 
         if (launchArgs && launchArgs.length > 0) {
@@ -59,12 +60,24 @@ export const startBrowser = async (data: IStart) => {
         }
 
         try {
-                await browser.newPage();
+               page = await browser.newPage();
         } catch (error: any) {
                 return {
                         error: error?.message || "Error to create new page"
                 }
         }
+        try{
+                state[instance] = {
+                        browser,
+                        page
+                }
+        }catch(error: any){
+                return {
+                        instance,
+                        error: error?.message || "Error to set state"
+                }
+        }
+    
 
         return {
                 instance,

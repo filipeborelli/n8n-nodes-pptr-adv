@@ -69,8 +69,7 @@ export class Puppeteer implements INodeType {
 				}else{
 					returnItem = {
 						json: {
-							status: result?.status,
-							message: result?.message
+							...result
 						}
 					 }
 				}

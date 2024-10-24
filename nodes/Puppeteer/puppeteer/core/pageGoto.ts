@@ -1,5 +1,5 @@
 import { IPageGoto } from "./dto/interface";
-import { state } from "../utils/Cache";
+import { state } from "../state";
 
 export const pageGoto = async (data: IPageGoto) => {
         const { instance, options, url } = data;

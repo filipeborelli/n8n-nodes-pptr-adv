@@ -1,5 +1,5 @@
 import { IPageWaitForSelector } from "./dto/interface";
-import { state } from "../utils/Cache";
+import { state } from "../state";
 
 export const pageWaitForSelector = async (data: IPageWaitForSelector) => {
         const { instance, selector, options } = data;
