@@ -2,7 +2,7 @@ import { IDataObject } from "n8n-workflow";
 import { IStart } from "./dto/interface";
 import puppeteer from "puppeteer-extra";
 import pluginStealth from "puppeteer-extra-plugin-stealth";
-import { Browser, Page } from "puppeteer";
+import { Browser } from "puppeteer";
 import { state } from "../utils/Cache";
 
 export const startBrowser = async (data: IStart) => {
@@ -12,7 +12,7 @@ export const startBrowser = async (data: IStart) => {
         const launchArgs: IDataObject[] = launchArguments.args as IDataObject[];
         const args: string[] = [];
         let browser: Browser;
-        let page: Page;
+
 
         if (launchArgs && launchArgs.length > 0) {
                 args.push(...launchArgs.map((arg: IDataObject) => arg.arg as string));
@@ -59,17 +59,16 @@ export const startBrowser = async (data: IStart) => {
         }
 
         try {
-                page = await browser.newPage();
+                await browser.newPage();
         } catch (error: any) {
                 return {
                         error: error?.message || "Error to create new page"
                 }
         }
-        state[instance] = {
-                page: page,
-                browser: browser,
-        };
+
         return {
+                instance,
+                state: state ? state : "Meu state",
                 status: "success",
                 message: "Browser started successfully"
         }
