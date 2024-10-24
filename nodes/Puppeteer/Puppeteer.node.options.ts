@@ -1,6 +1,6 @@
 import { INodeTypeDescription } from "n8n-workflow";
-import { BrowserOperations } from "./utils/Browser";
-import { configuredOutputs } from "./utils/Outputs";
+import { BrowserOperations } from "./puppeteer/utils/Browser";
+import { configuredOutputs } from "./puppeteer/utils/Outputs";
 
 /**
  * Options to be displayed

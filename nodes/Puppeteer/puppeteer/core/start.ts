@@ -3,7 +3,7 @@ import { IStart } from "./dto/interface";
 import puppeteer from "puppeteer-extra";
 import pluginStealth from "puppeteer-extra-plugin-stealth";
 import { Browser, Page } from "puppeteer";
-import state from "../Puppeteer/utils/Cache";
+import state from "../utils/Cache";
 
 export const startBrowser = async (data: IStart) => {
         const { instance, options } = data;

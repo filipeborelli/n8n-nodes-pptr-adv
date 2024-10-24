@@ -1,5 +1,5 @@
 import { IPageWaitForSelector } from "./dto/interface";
-import state from "../Puppeteer/utils/Cache";
+import state from "../utils/Cache";
 
 export const pageWaitForSelector = async (data: IPageWaitForSelector) => {
         const { instance,selector, options } = data;

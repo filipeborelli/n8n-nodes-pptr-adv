@@ -1,5 +1,5 @@
 import { IPageType } from "./dto/interface";
-import state from "../Puppeteer/utils/Cache";
+import state from "../utils/Cache";
 
 export const pageType = async (data: IPageType) => {
         const { instance,selector,text, options } = data;

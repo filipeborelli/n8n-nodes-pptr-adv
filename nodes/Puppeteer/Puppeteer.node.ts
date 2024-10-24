@@ -13,11 +13,11 @@ import { devices } from 'puppeteer';
 import {
 	nodeDescription,
 } from './Puppeteer.node.options';
-import { startBrowser } from '../core/start';
-import { pageGoto } from '../core/pageGoto';
-import { pageClick } from '../core/pageClick';
-import { pageWaitForSelector } from '../core/pageWaitForSelector';
-import { pageType } from '../core/pageType';
+import { startBrowser } from './puppeteer/core/start';
+import { pageGoto } from './puppeteer/core/pageGoto';
+import { pageClick } from './puppeteer/core/pageClick';
+import { pageWaitForSelector } from './puppeteer/core/pageWaitForSelector';
+import { pageType } from './puppeteer/core/pageType';
 
 export class Puppeteer implements INodeType {
 	description: INodeTypeDescription = nodeDescription;

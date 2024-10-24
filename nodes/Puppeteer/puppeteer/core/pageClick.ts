@@ -1,5 +1,5 @@
 import { IPageClick } from "./dto/interface";
-import state from "../Puppeteer/utils/Cache";
+import state from "../utils/Cache";
 
 export const pageClick = async (data: IPageClick) => {
         const { instance,selector, options } = data;
