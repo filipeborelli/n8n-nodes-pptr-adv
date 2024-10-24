@@ -4,9 +4,10 @@ import puppeteer from "puppeteer-extra";
 import pluginStealth from "puppeteer-extra-plugin-stealth";
 import { Browser, Page } from "puppeteer";
 import { state } from "../state";
+import recaptchaPlugin  from "puppeteer-extra-plugin-recaptcha";
 
 export const startBrowser = async (data: IStart) => {
-        const { instance, options } = data;
+        const { instance, options, twoCaptchaToken } = data;
         const launchArguments = (options.launchArguments as IDataObject) || {};
         const stealth = options.stealth === true;
         const launchArgs: IDataObject[] = launchArguments.args as IDataObject[];
@@ -26,6 +27,9 @@ export const startBrowser = async (data: IStart) => {
                 if (stealth) {
                         puppeteer.use(pluginStealth());
                 }
+                if(twoCaptchaToken){
+                        puppeteer.use(recaptchaPlugin({ provider: { id: '2captcha', token: twoCaptchaToken } }));
+                }
 
         } catch (error) {
                 return {
@@ -39,6 +43,7 @@ export const startBrowser = async (data: IStart) => {
                         browser = await puppeteer.connect({
                                 browserWSEndpoint: options.browserWSEndpoint,
                                 ignoreHTTPSErrors: true,
+                                slowMo: options?.slowMo || 0,
                         });
                 } catch (error: any) {
                         return {
@@ -51,6 +56,7 @@ export const startBrowser = async (data: IStart) => {
                                 headless: true,
                                 args,
                                 ignoreHTTPSErrors: true,
+                                slowMo: options?.slowMo || 0,
                         });
                 } catch (error: any) {
                         return {
@@ -80,8 +86,6 @@ export const startBrowser = async (data: IStart) => {
     
 
         return {
-                instance,
-                state: state ? state : "Meu state",
                 status: "success",
                 message: "Browser started successfully"
         }

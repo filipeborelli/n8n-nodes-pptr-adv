@@ -127,10 +127,41 @@ const BrowserOptions: INodeProperties[] = [
                 description:
                     "This tells Puppeteer to use a custom proxy configuration. Examples: localhost:8080, socks5://localhost:1080, etc.",
             },
+            {
+                displayName: "Slow Mo",
+                name: "slowMo",
+                type: "number",
+                required: false,
+                default: 0,
+                description:
+                    "Slows down Puppeteer operations by the specified amount of milliseconds.",
+            },
+            {
+                displayName: "Captcha Solver",
+                name: "captchaSolver",
+                type: "boolean",
+                required: false,
+                default: false,
+                description:
+                    "Use the 2captcha service to solve the captcha.",
+            },
         ],
         displayOptions: {
             show: {
                 browserActions: ["newPage"],
+            },
+        },
+    },
+    {
+        displayName: "2Captcha Token",
+        name: "twoCaptchaToken",
+        description: "The 2captcha API key to use to solve the captcha.",
+        type: "string",
+        required: true,
+        default: "",
+        displayOptions: {
+            show: {
+                browserOptions: ["captchaSolver"],
             },
         },
     },

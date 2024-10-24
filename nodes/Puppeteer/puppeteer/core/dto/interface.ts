@@ -1,6 +1,7 @@
 export interface IStart {
     instance: string;
     options?: any
+    twoCaptchaToken?: string;
 }
 
 export interface IPageGoto {
@@ -9,6 +10,9 @@ export interface IPageGoto {
     options?: any
 }
 
+export interface IPageSolveCaptcha {
+    instance: string;
+}
 
 export interface IPageClick {
     instance: string;

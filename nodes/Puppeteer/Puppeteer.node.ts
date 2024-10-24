@@ -18,6 +18,7 @@ import { pageGoto } from './puppeteer/core/pageGoto';
 import { pageClick } from './puppeteer/core/pageClick';
 import { pageWaitForSelector } from './puppeteer/core/pageWaitForSelector';
 import { pageType } from './puppeteer/core/pageType';
+import { pageSolveCaptcha } from './puppeteer/core/solveCaptcha';
 
 export class Puppeteer implements INodeType {
 	description: INodeTypeDescription = nodeDescription;
@@ -46,15 +47,16 @@ export class Puppeteer implements INodeType {
 		const returnData: INodeExecutionData[] = [];
 		const instance = this.getNodeParameter('instance', 0,{}) as string;
 		const operation = this.getNodeParameter('operation', 0,{}) as string;
+		const twoCaptchaToken = this.getNodeParameter('twoCaptchaToken', 0,{}) as string;
 		let returnItem: any;
-		console.log(operation, instance, "minhas operações")
 		if (operation === "browserContext") {
 			const options = this.getNodeParameter('browserOptions', 0,{}) as IDataObject;
 			const browserAction = this.getNodeParameter('browserActions', 0,{}) as string;
 			if (browserAction === "newPage") {
 				const result = await startBrowser({
 					instance,
-					options
+					options,
+					twoCaptchaToken
 				})
 				if(result?.error){
 					if(this.continueOnFail() !== true){
@@ -115,6 +117,7 @@ export class Puppeteer implements INodeType {
 					selector,
 					options
 				})
+				
 				if(result?.error){
 					if(this.continueOnFail() !== true){
 						returnItem = {
@@ -133,6 +136,33 @@ export class Puppeteer implements INodeType {
 					}
 				}
 			}
+
+
+			if (pageAction === "pageSolveCaptcha") {
+				const result = await pageSolveCaptcha({
+					instance
+				})
+				
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+
+			
 
 			if (pageAction === "pageWaitForSelector") {
 				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;

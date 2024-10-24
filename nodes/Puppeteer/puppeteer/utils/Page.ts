@@ -100,6 +100,11 @@ export const PageOperations: INodeProperties[] = [
                 name: "Wait For Request",
                 value: "pageWaitForRequest",
                 description: "Wait for the request",
+            },
+            {
+                name: "Solve Captcha",
+                value: "pageSolveCaptcha",
+                description: "Use the 2captcha service to solve the captcha",
             }
         ],
         required: true,
