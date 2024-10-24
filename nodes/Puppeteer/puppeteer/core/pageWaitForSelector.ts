@@ -1,12 +1,19 @@
 import { IPageWaitForSelector } from "./dto/interface";
-import state from "../utils/Cache";
+import { state } from "../utils/Cache";
 
 export const pageWaitForSelector = async (data: IPageWaitForSelector) => {
-        const { instance,selector, options } = data;
-        await state.executions[instance].page.waitForSelector(selector,options);
-        return {
-                page: state.executions[instance].page,
-                browser: state.executions[instance].browser
+        const { instance, selector, options } = data;
+        try {
+                await state[instance]?.page.waitForSelector(selector, options);
+                return {
+                        status: "success",
+                        message: "Selector found"
+                }
+        } catch (error:any) {
+                return {
+                        status: "error",
+                        error: error?.message || "Error to wait for selector"
+                }
         }
-        
+
 }

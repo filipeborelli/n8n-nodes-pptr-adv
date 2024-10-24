@@ -3,7 +3,7 @@ import { IStart } from "./dto/interface";
 import puppeteer from "puppeteer-extra";
 import pluginStealth from "puppeteer-extra-plugin-stealth";
 import { Browser, Page } from "puppeteer";
-import state from "../utils/Cache";
+import { state } from "../utils/Cache";
 
 export const startBrowser = async (data: IStart) => {
         const { instance, options } = data;
@@ -65,8 +65,10 @@ export const startBrowser = async (data: IStart) => {
                         error: error?.message || "Error to create new page"
                 }
         }
-        state.executions[instance].page = page;
-        state.executions[instance].browser = browser;
+        state[instance] = {
+                page: page,
+                browser: browser,
+        };
         return {
                 status: "success",
                 message: "Browser started successfully"
