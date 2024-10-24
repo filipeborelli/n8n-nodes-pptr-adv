@@ -110,21 +110,55 @@ export class Puppeteer implements INodeType {
 			if (pageAction === "pageClick") {
 				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;
 				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
-				await pageClick({
+				const result = await pageClick({
 					instance,
 					selector,
 					options
 				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
 			}
 
 			if (pageAction === "pageWaitForSelector") {
 				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;
 				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
-				await pageWaitForSelector({
+				const result = await pageWaitForSelector({
 					instance,
 					selector,
 					options
 				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
 			}
 
 			if (pageAction === "pageType") {
@@ -132,12 +166,29 @@ export class Puppeteer implements INodeType {
 				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
 				const text = this.getNodeParameter('pageTypeText', 0,{}) as string;
 
-				await pageType({
+				const result = await pageType({
 					instance,
 					selector,
 					text,
 					options
 				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
 			}
 		}
 		if(returnItem){
