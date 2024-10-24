@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-pptr-adv",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "N8n node for requesting webpages using Puppeteer",
   "license": "MIT",
   "homepage": "https://github.com/filipeborelli/n8n-nodes-pptr-adv",

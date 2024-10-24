@@ -8,4 +8,5 @@ export const pageWaitForSelector = async (data: IPageWaitForSelector) => {
                 page: state[instance].page,
                 browser: state[instance].browser
         }
+        
 }
