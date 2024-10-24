@@ -3,9 +3,9 @@ import state from "../Puppeteer/utils/Cache";
 
 export const pageType = async (data: IPageType) => {
         const { instance,selector,text, options } = data;
-        await state[instance].page.type(selector,text,options);
+        await state.executions[instance].page.type(selector,text,options);
         return {
-                page: state[instance].page,
-                browser: state[instance].browser
+                page: state.executions[instance].page,
+                browser: state.executions[instance].browser
         }
 }

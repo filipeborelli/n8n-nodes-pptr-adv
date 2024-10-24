@@ -65,8 +65,8 @@ export const startBrowser = async (data: IStart) => {
                         error: error?.message || "Error to create new page"
                 }
         }
-        state[instance].page = page;
-        state[instance].browser = browser;
+        state.executions[instance].page = page;
+        state.executions[instance].browser = browser;
         return {
                 status: "success",
                 message: "Browser started successfully"
