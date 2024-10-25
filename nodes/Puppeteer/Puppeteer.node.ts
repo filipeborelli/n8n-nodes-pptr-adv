@@ -458,7 +458,7 @@ export class Puppeteer implements INodeType {
 				}
 			}
 			if (pageAction === "pageDeleteCookie") {
-				const cookies = this.getNodeParameter('pageCookiesOptions', 0,{}) as IDataObject;
+				const cookies = this.getNodeParameter('pageCookiesOptions', 0,{}) as IDataObject[];
 
 				const result = await pageDeleteCookie({
 					instance,
@@ -483,7 +483,7 @@ export class Puppeteer implements INodeType {
 				}
 			}
 			if (pageAction === "pageSetCookies") {
-				const cookies = this.getNodeParameter('pageCookiesOptions', 0,{}) as IDataObject;
+				const cookies = this.getNodeParameter('pageCookiesOptions', 0,{}) as IDataObject[];
 
 				const result = await pageSetCookies({
 					instance,
