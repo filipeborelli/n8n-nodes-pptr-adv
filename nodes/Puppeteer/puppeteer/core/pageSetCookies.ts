@@ -4,6 +4,7 @@ import { state } from "../state";
 export const pageSetCookies = async (data: IPageSetCookies) => {
     const { instance, cookies } = data;
     try {
+        console.log(cookies,"meus cookies")
         const response = await state[instance]?.page.setCookie(...cookies);
         return {
             status: "success",
