@@ -172,7 +172,7 @@ export const PageOperations: INodeProperties[] = [
         displayName: "Options",
         name: "pageOptions",
         type: "json",
-        default: {},
+        default: "{}",
         displayOptions: {
             show: {
                 pageOperation: ["pageAddScriptTag","pageClick","pageGoto","pageType","pageGoBack","pageGoForward","pageReload","pageWaitForSelector","pageWaitForNavigation"],
@@ -199,7 +199,7 @@ export const PageOperations: INodeProperties[] = [
         name: "evaluateArgs",
         type: "json",
         description: "Variables to pass to the evaluate function",
-        default: {},
+        default: "{}",
         displayOptions: {
             show: {
                 pageOperation: ["pageEvaluate"],
