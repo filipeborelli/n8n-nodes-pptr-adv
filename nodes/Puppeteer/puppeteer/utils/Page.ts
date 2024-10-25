@@ -27,9 +27,9 @@ export const PageOperations: INodeProperties[] = [
                 description: "Reload the page",
             },
             {
-                name: "Page $",
-                value: "page$",
-                description: "Evaluate the selector",
+                name: "Page close",
+                value: "pageClose",
+                description: "Close the page",
             },
             {
                 name: "Page evaluate",
@@ -82,24 +82,9 @@ export const PageOperations: INodeProperties[] = [
                 description: "Wait for the selector",
             },
             {
-                name: "Wait For Frame",
-                value: "pageWaitForFrame",
-                description: "Wait for the frame",
-            },
-            {
                 name: "Wait For Navigation",
                 value: "pageWaitForNavigation",
                 description: "Wait for the navigation",
-            },
-            {
-                name: "Wait For Function",
-                value: "pageWaitForFunction",
-                description: "Wait for the function",
-            },
-            {
-                name: "Wait For Request",
-                value: "pageWaitForRequest",
-                description: "Wait for the request",
             },
             {
                 name: "Solve Captcha",
@@ -128,6 +113,19 @@ export const PageOperations: INodeProperties[] = [
         },
     },
     {
+        displayName: "IFrame Selector",
+        name: "iFrameSelector",
+        type: "string",
+        required: false,
+        default: "",
+        description: "Optional: Selector of the iframe to interact with",
+        displayOptions: {
+            show: {
+                pageOperation: ["pageEvaluate","pageWaitForSelector","pageClick","pageType","pageHover"],
+            },
+        },
+    },
+    {
         displayName: "Selector",
         name: "pageSelector",
         type: "string",
@@ -135,7 +133,7 @@ export const PageOperations: INodeProperties[] = [
         default: "",
         displayOptions: {
             show: {
-                pageOperation: ["page$","pageClick","pageType","pageHover","pageWaitForSelector"],
+                pageOperation: ["pageClick","pageType","pageHover","pageWaitForSelector"],
             },
         },
     },
@@ -151,18 +149,7 @@ export const PageOperations: INodeProperties[] = [
             },
         },
     },
-    {
-        displayName: "Url Or Predicate",
-        name: "pageUrlOrPredicate",
-        type: "string",
-        required: true,
-        default: "",
-        displayOptions: {
-            show: {
-                pageOperation: ["pageWaitForFunction","pageWaitForFrame","pageWaitForRequest"],
-            },
-        },
-    },
+
     {
         displayName: "Cookies",
         name: "pageCookiesOptions",
@@ -185,22 +172,10 @@ export const PageOperations: INodeProperties[] = [
         displayName: "Options",
         name: "pageOptions",
         type: "json",
-        default: "",
+        default: {},
         displayOptions: {
             show: {
-                pageOperation: ["page$","pageAddScriptTag","pageClick","pageGoto","pageType","pageGoBack","pageGoForward","pageReload","pageWaitForSelector","pageWaitForNavigation","pageWaitForFunction","pageWaitForFrame","pageWaitForRequest"],
-            },
-        },
-    },
-    {
-        displayName: "Args",
-        name: "pageArgs",
-        type: "string",
-        required: true,
-        default: "",
-        displayOptions: {
-            show: {
-                pageOperation: ["pageWaitForFunction"],
+                pageOperation: ["pageAddScriptTag","pageClick","pageGoto","pageType","pageGoBack","pageGoForward","pageReload","pageWaitForSelector","pageWaitForNavigation"],
             },
         },
     },
@@ -208,11 +183,23 @@ export const PageOperations: INodeProperties[] = [
         displayName: "Javascript Function",
         name: "pageEvaluateFunction",
         type: "string",
-        default: "// Run a javascript function on the page\nawait page.evaluate(() => {\n console.log('Hello from the browser'); \n});",
+        default: "//Run a javascript function on the page \nconst inputs = document.querySelectorAll('input')",
         typeOptions: {
             editor: "codeNodeEditor",
             editorLanguage: "javaScript",
         },
+        displayOptions: {
+            show: {
+                pageOperation: ["pageEvaluate"],
+            },
+        },
+    },
+    {
+        displayName: "Evaluate Args",
+        name: "evaluateArgs",
+        type: "json",
+        description: "Variables to pass to the evaluate function",
+        default: {},
         displayOptions: {
             show: {
                 pageOperation: ["pageEvaluate"],

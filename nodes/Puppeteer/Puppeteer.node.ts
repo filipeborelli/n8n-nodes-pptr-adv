@@ -19,6 +19,19 @@ import { pageClick } from './puppeteer/core/pageClick';
 import { pageWaitForSelector } from './puppeteer/core/pageWaitForSelector';
 import { pageType } from './puppeteer/core/pageType';
 import { pageSolveCaptcha } from './puppeteer/core/solveCaptcha';
+import { pageEvaluate } from './puppeteer/core/pageEvaluate';
+import { pageGoBack } from './puppeteer/core/pageGoBack';
+import { pageGoForward } from './puppeteer/core/pageGoForward';
+import { pageReload } from './puppeteer/core/pageReload';
+import { pageAddScriptTag } from './puppeteer/core/pageAddScriptTag';
+import { pageContent } from './puppeteer/core/pageContent';
+import { pageCookies } from './puppeteer/core/pageCookies';
+import { pageDeleteCookie } from './puppeteer/core/pageDeleteCookie';
+import { pageSetCookies } from './puppeteer/core/pageSetCookies';
+import { pageHover } from './puppeteer/core/pageHover';
+import { pageWaitForNavigation } from './puppeteer/core/pageWaitForNavigation';
+import { browserClose } from './puppeteer/core/browserClose';
+import { pageClose } from './puppeteer/core/pageClose';
 
 export class Puppeteer implements INodeType {
 	description: INodeTypeDescription = nodeDescription;
@@ -76,6 +89,28 @@ export class Puppeteer implements INodeType {
 					 }
 				}
 			}
+			if (browserAction === "closeBrowser") {
+				const result = await browserClose({
+					instance,
+				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					 }
+				}
+			}
 		}
 
 		if (operation === "pageContext") {
@@ -110,11 +145,13 @@ export class Puppeteer implements INodeType {
 			}
 
 			if (pageAction === "pageClick") {
+				const iframe = this.getNodeParameter('iFrameSelector', 0,{}) as string;
 				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;
 				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
 				const result = await pageClick({
 					instance,
 					selector,
+					iframe,
 					options
 				})
 				
@@ -167,9 +204,11 @@ export class Puppeteer implements INodeType {
 			if (pageAction === "pageWaitForSelector") {
 				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;
 				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
+				const iframe = this.getNodeParameter('iFrameSelector', 0,{}) as string;
 				const result = await pageWaitForSelector({
 					instance,
 					selector,
+					iframe,
 					options
 				})
 				if(result?.error){
@@ -195,13 +234,314 @@ export class Puppeteer implements INodeType {
 				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;
 				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
 				const text = this.getNodeParameter('pageTypeText', 0,{}) as string;
+				const iframe = this.getNodeParameter('iFrameSelector', 0,{}) as string;
 
 				const result = await pageType({
 					instance,
 					selector,
 					text,
+					iframe,
 					options
 				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+
+
+			if (pageAction === "pageEvaluate") {
+				const code = this.getNodeParameter('pageEvaluateFunction', 0,{}) as string;
+				const args = this.getNodeParameter('evaluateArgs', 0,{}) as IDataObject;
+				const iframe = this.getNodeParameter('iFrameSelector', 0,{}) as string;
+
+				const result = await pageEvaluate({
+					instance,
+					code,
+					args,
+					iframe
+				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+
+			if (pageAction === "pageGoBack") {
+				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
+				const result = await pageGoBack({
+					instance,
+					options
+				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+
+			if (pageAction === "pageGoForward") {
+				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
+				const result = await pageGoForward({
+					instance,
+					options
+				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+			if (pageAction === "pageReload") {
+				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
+				const result = await pageReload({
+					instance,
+					options
+				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+			if (pageAction === "pageAddScriptTag") {
+				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
+				const result = await pageAddScriptTag({
+					instance,
+					options
+				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+			if (pageAction === "pageContent") {
+				const result = await pageContent({
+					instance,
+				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+
+			if (pageAction === "pageClose") {
+				const result = await pageClose({
+					instance,
+				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+			if (pageAction === "pageCookies") {
+				const result = await pageCookies({
+					instance,
+				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+			if (pageAction === "pageDeleteCookie") {
+				const cookies = this.getNodeParameter('pageCookiesOptions', 0,{}) as IDataObject;
+
+				const result = await pageDeleteCookie({
+					instance,
+					cookies
+				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+			if (pageAction === "pageSetCookies") {
+				const cookies = this.getNodeParameter('pageCookiesOptions', 0,{}) as IDataObject;
+
+				const result = await pageSetCookies({
+					instance,
+					cookies
+				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+
+			if (pageAction === "pageHover") {
+				const iframe = this.getNodeParameter('iFrameSelector', 0,{}) as string;
+				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;
+				const result = await pageHover({
+					instance,
+					selector,
+					iframe,
+				})
+				
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+			if (pageAction === "pageWaitForNavigation") {
+				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
+				const result = await pageWaitForNavigation({
+					instance,
+					options
+				})
+				
 				if(result?.error){
 					if(this.continueOnFail() !== true){
 						returnItem = {

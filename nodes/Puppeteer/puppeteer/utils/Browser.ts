@@ -14,11 +14,6 @@ const BrowserOptions: INodeProperties[] = [
                 description: "Create a new page in the browser instance.",
             },
             {
-                name: "Targets",
-                value: "targets",
-                description: "Get the list of targets in the browser instance.",
-            },
-            {
                 name: "Close",
                 value: "closeBrowser",
                 description: "Close the browser instance.",

@@ -1,10 +1,10 @@
-import { IPageType } from "./dto/interface";
+import { IPageHover } from "./dto/interface";
 import { state } from "../state";
 
-export const pageType = async (data: IPageType) => {
-        const { instance, selector, text, options ,iframe} = data;
+export const pageHover = async (data: IPageHover) => {
+        const { instance, selector, iframe } = data;
         try {
-                if(iframe){
+                if (iframe) {
                         const frameElement = state[instance]?.page.$(iframe);
                         if (!frameElement) {
                                 return {
@@ -18,34 +18,39 @@ export const pageType = async (data: IPageType) => {
                                 }
                         }
 
-                        const response = await frame.type(selector, text, options);
-
+                        const [response] = await Promise.all([
+                                frame.waitForNavigation(),
+                                frame.hover(selector),
+                        ]);
                         if (response?.error) {
                                 return {
-                                        error: response?.error || "Error to type in the selector"
+                                        error: response?.error || "Error to hover in the selector"
                                 }
                         }
                         return {
                                 status: "success",
-                                message: "Text typed in the selector"
-                        }
-                }else{
-                        const response = await state[instance]?.page.type(selector, text, options);
-                        if(response?.error){
-                                return {
-                                        error: response?.error || "Error to type in the selector"
-                                }
+                                message: "Hover in the selector"
                         }
 
+                } else {
+                        const [response] = await Promise.all([
+                                state[instance]?.page.waitForNavigation(),
+                                state[instance]?.page.hover(selector),
+                        ]);
+                        if (response?.error) {
+                                return {
+                                        error: response?.error || "Error to hover in the selector"
+                                }
+                        }
                         return {
                                 status: "success",
-                                message: "Text typed in the selector"
+                                message: "Hover in the selector"
                         }
                 }
-    
+
         } catch (error: any) {
                 return {
-                        error: error?.message || "Error to type in the selector"
+                        error: error?.message || "Error to hover in the selector"
                 }
         }
-}
+}       
