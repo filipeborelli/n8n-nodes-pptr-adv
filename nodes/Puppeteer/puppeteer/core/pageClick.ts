@@ -2,10 +2,17 @@ import { IPageClick } from "./dto/interface";
 import { state } from "../state";
 
 export const pageClick = async (data: IPageClick) => {
-        const { instance, selector } = data;
+        const { instance, selector,options } = data;
         try {
-                console.log(selector,"meu seletor")
-                await state[instance]?.page.click(selector);
+                const [response] = await Promise.all([
+                        state[instance]?.waitForNavigation(),
+                        state[instance]?.click(selector, options),
+                      ]);
+                 if(response?.error){
+                        return {
+                                error: response?.error || "Error to click in the selector"
+                        }
+                }     
                 return {
                         status: "success",
                         message: "Clicked in the selector"
