@@ -161,7 +161,11 @@ const BrowserOptions: INodeProperties[] = [
         default: "",
         displayOptions: {
             show: {
-                browserOptions: ["captchaSolver"],
+                browserOptions: [
+                    {
+                        _cnd: { eq : "captchaSolver" },
+                    },
+                ],
             },
         },
     },
