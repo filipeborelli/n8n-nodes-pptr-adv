@@ -4,7 +4,7 @@ import { state } from "../state";
 export const pageSolveCaptcha = async (data: IPageSolveCaptcha) => {
         const { instance } = data;
         try {
-                const result: any = await state[instance]?.solveRecaptchas()
+                const result: any = await state[instance]?.page.solveRecaptchas()
                 await Promise.all([
                         state[instance]?.page.waitForNavigation(),
                         state[instance]?.page.click(`#recaptcha-demo-submit`)

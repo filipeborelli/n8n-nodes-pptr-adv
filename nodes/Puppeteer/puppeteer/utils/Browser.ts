@@ -38,6 +38,11 @@ const BrowserOptions: INodeProperties[] = [
         type: "string",
         required: false,
         default: "",
+        displayOptions: {
+            show: {
+                browserActions: ["newPage"],
+            },
+        },
     },
     {
         displayName: "Browser Options",
