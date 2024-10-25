@@ -5,7 +5,7 @@ export const pageEvaluate = async (data: IPageEvaluate) => {
         const { instance, code, args, iframe } = data;
         try {
                 if (iframe) {
-                        const frameElement = state[instance]?.page.$(iframe);
+                        const frameElement = await state[instance]?.page.$(iframe);
                         if (!frameElement) {
                                 return {
                                         error: "Error to find the iframe element"

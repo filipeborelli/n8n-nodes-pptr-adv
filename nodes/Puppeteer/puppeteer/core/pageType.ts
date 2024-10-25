@@ -5,7 +5,7 @@ export const pageType = async (data: IPageType) => {
         const { instance, selector, text, options ,iframe} = data;
         try {
                 if(iframe){
-                        const frameElement = state[instance]?.page.$(iframe);
+                        const frameElement = await state[instance]?.page.$(iframe);
                         if (!frameElement) {
                                 return {
                                         error: "Error to find the iframe element"
