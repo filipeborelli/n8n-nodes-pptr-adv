@@ -5,8 +5,8 @@ export const pageClick = async (data: IPageClick) => {
         const { instance, selector,options } = data;
         try {
                 const [response] = await Promise.all([
-                        state[instance]?.waitForNavigation(),
-                        state[instance]?.click(selector, options),
+                        state[instance]?.page.waitForNavigation(),
+                        state[instance]?.page.click(selector, options),
                       ]);
                  if(response?.error){
                         return {
