@@ -32,6 +32,14 @@ const BrowserOptions: INodeProperties[] = [
         },
     },
     {
+        displayName: "Use 2Captcha solver",
+        name: "twoCaptchaToken",
+        description: "The 2Captcha API key to use for solving captchas.",
+        type: "string",
+        required: false,
+        default: "",
+    },
+    {
         displayName: "Browser Options",
         name: "browserOptions",
         type: "collection",
@@ -102,7 +110,7 @@ const BrowserOptions: INodeProperties[] = [
                 description: "When target created or destroyed, the target process",
             },
             {
-                displayName: "Handle Browser Disccconect",
+                displayName: "Handle Browser Disconnect",
                 name: "handleBrowserDisconnect",
                 type: "boolean",
                 required: false,
@@ -136,15 +144,6 @@ const BrowserOptions: INodeProperties[] = [
                 description:
                     "Slows down Puppeteer operations by the specified amount of milliseconds.",
             },
-            {
-                displayName: "Captcha Solver",
-                name: "captchaSolver",
-                type: "boolean",
-                required: false,
-                default: false,
-                description:
-                    "Use the 2captcha service to solve the captcha.",
-            },
         ],
         displayOptions: {
             show: {
@@ -152,23 +151,7 @@ const BrowserOptions: INodeProperties[] = [
             },
         },
     },
-    {
-        displayName: "2Captcha Token",
-        name: "twoCaptchaToken",
-        description: "The 2captcha API key to use to solve the captcha.",
-        type: "string",
-        required: true,
-        default: "",
-        displayOptions: {
-            show: {
-                browserOptions: [
-                    {
-                        _cnd: { eq : "captchaSolver" },
-                    },
-                ],
-            },
-        },
-    },
+  
 ]
 
 export const BrowserOperations: INodeProperties[] = [
