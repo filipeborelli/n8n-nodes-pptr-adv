@@ -154,14 +154,7 @@ export const PageOperations: INodeProperties[] = [
         displayName: "Cookies",
         name: "pageCookiesOptions",
         type: "json",
-        default: [ 
-            { 
-                "domain": "", 
-                "name": "", 
-                "partitionKey": "", 
-                "path": "", 
-                "url": "" 
-            }],
+        default: "",
         displayOptions: {
             show: {
                 pageOperation: ["pageDeleteCookie","pageSetCookies"],
