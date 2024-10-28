@@ -6,7 +6,7 @@ export const pageHover = async (data: IPageHover) => {
         try {
 								var page = state[instance]?.page
 								if (iframe) {
-										const frameElement = await page.$(iframe);
+										const frameElement = await page.$(iframe)
 										if (!frameElement) {
 												return {
 														error: "Error to find the iframe element"

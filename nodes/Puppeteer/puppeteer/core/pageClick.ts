@@ -5,9 +5,8 @@ export const pageClick = async (data: IPageClick) => {
         const { instance, selector, options, iframe } = data;
         try {
 								var page = state[instance]?.page
-
                 if (iframe) {
-										const frameElement = await page.$(iframe);
+										const frameElement = await page.$(iframe)
 										if (!frameElement) {
 												return {
 														error: "Error to find the iframe element"
