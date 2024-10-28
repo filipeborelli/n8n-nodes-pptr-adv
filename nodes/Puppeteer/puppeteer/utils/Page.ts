@@ -21,6 +21,11 @@ export const PageOperations: INodeProperties[] = [
                 value: "pageGoForward",
                 description: "Navigate to the next page",
             },
+						{
+							name: "Page File Choose",
+							value: "pageChooseFile",
+							description: "Choose file for upload",
+						},
             {
                 name: "Page Reload",
                 value: "pageReload",
@@ -31,6 +36,11 @@ export const PageOperations: INodeProperties[] = [
                 value: "pageClose",
                 description: "Close the page",
             },
+						{
+							name: "Page Screenshot",
+							value: "pageScreenshot",
+							description: "Take screenshot of page",
+						},
             {
                 name: "Page evaluate",
                 value: "pageEvaluate",
@@ -112,6 +122,18 @@ export const PageOperations: INodeProperties[] = [
             },
         },
     },
+		{
+			displayName: "Filename",
+			name: "pageFilename",
+			type: "string",
+			required: true,
+			default: "",
+			displayOptions: {
+					show: {
+							pageOperation: ["pageScreenshot","pageChooseFile"],
+					},
+			},
+		},
     {
         displayName: "IFrame Selector",
         name: "iFrameSelector",
@@ -133,10 +155,22 @@ export const PageOperations: INodeProperties[] = [
         default: "",
         displayOptions: {
             show: {
-                pageOperation: ["pageClick","pageType","pageHover","pageWaitForSelector"],
+                pageOperation: ["pageClick","pageType","pageHover","pageWaitForSelector","pageChooseFile"],
             },
         },
     },
+		{
+			displayName: "Evaluate Selector (optional)",
+			name: "pageEvaluateSelector",
+			type: "string",
+			required: false,
+			default: "",
+			displayOptions: {
+					show: {
+							pageOperation: ["pageEvaluate"],
+					},
+			},
+		},
     {
         displayName: "Text",
         name: "pageTypeText",
@@ -149,7 +183,18 @@ export const PageOperations: INodeProperties[] = [
             },
         },
     },
-
+    {
+			displayName: "Evaluation Loop Until Timeout",
+			name: "pageEvaluateTimeout",
+			type: "number",
+			required: false,
+			default: "",
+			displayOptions: {
+					show: {
+							pageOperation: ["pageEvaluate"],
+					},
+			},
+		},
     {
         displayName: "Cookies",
         name: "pageCookiesOptions",

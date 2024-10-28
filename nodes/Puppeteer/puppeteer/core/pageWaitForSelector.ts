@@ -25,6 +25,7 @@ export const pageWaitForSelector = async (data: IPageWaitForSelector) => {
                         }
                 } else {
                         await state[instance]?.page.waitForSelector(selector, options);
+
                         return {
                                 status: "success",
                                 message: "Selector found"

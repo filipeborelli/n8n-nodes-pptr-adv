@@ -15,7 +15,7 @@ export const startBrowser = async (data: IStart) => {
         let browser: Browser;
         let page: Page;
 
-
+			args.push('--enable-experimental-web-platform-features')
         if (launchArgs && launchArgs.length > 0) {
                 args.push(...launchArgs.map((arg: IDataObject) => arg.arg as string));
         }
@@ -83,7 +83,7 @@ export const startBrowser = async (data: IStart) => {
                         error: error?.message || "Error to set state"
                 }
         }
-    
+
 
         return {
                 status: "success",

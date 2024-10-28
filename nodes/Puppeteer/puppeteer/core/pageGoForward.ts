@@ -5,7 +5,7 @@ export const pageGoForward = async (data: IPageGoForward) => {
         const { instance,options } = data;
         try {
                 await state[instance]?.page.goForward(options)
-             
+
                 return {
                         status: "success",
                         message: "Navigate to the next page"
@@ -15,4 +15,4 @@ export const pageGoForward = async (data: IPageGoForward) => {
                         error: error?.message || "Error to navigate to the next page"
                 }
         }
-}       
+}
