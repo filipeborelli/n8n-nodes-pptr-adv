@@ -8,11 +8,11 @@ on:
 
 jobs:
   build:
-
     runs-on: self-hosted
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Set env from secrets
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -23,6 +23,15 @@ jobs:
       run: |
         npm install
     
+    - name: Check and update version
+      run: |
+        CURRENT_VERSION=$(node -p "require('./package.json').version")
+        echo "Current version: $CURRENT_VERSION"
+
+        # Define a new version (exemplo: incrementando a versão patch)
+        NEW_VERSION=$(npm version patch --no-git-tag-version)
+        echo "Updated version: $NEW_VERSION"
+
     - name: Configure npm to use the token
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
 
