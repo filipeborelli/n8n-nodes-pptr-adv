@@ -10,12 +10,12 @@ export const startBrowser = async (data: IStart) => {
         const { instance, options, twoCaptchaToken } = data;
         const launchArguments = (options.launchArguments as IDataObject) || {};
         const stealth = options.stealth === true;
+				const headless = options.headless === true;
         const launchArgs: IDataObject[] = launchArguments.args as IDataObject[];
         const args: string[] = [];
         let browser: Browser;
         let page: Page;
 
-			args.push('--enable-experimental-web-platform-features')
         if (launchArgs && launchArgs.length > 0) {
                 args.push(...launchArgs.map((arg: IDataObject) => arg.arg as string));
         }
@@ -42,7 +42,6 @@ export const startBrowser = async (data: IStart) => {
                 try {
                         browser = await puppeteer.connect({
                                 browserWSEndpoint: options.browserWSEndpoint,
-                                ignoreHTTPSErrors: true,
                                 slowMo: options?.slowMo || 0,
                         });
                 } catch (error: any) {
@@ -53,9 +52,8 @@ export const startBrowser = async (data: IStart) => {
         } else {
                 try {
                         browser = await puppeteer.launch({
-                                headless: true,
+                                headless: headless,
                                 args,
-                                ignoreHTTPSErrors: true,
                                 slowMo: options?.slowMo || 0,
                         });
                 } catch (error: any) {

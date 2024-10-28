@@ -8,7 +8,8 @@ import {
 	INodePropertyOptions,
 } from 'n8n-workflow';
 
-import { devices } from 'puppeteer';
+import { KnownDevices } from 'puppeteer'
+const devices = KnownDevices;
 
 import {
 	nodeDescription,

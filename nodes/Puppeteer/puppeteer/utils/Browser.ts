@@ -144,6 +144,15 @@ const BrowserOptions: INodeProperties[] = [
                 description:
                     "Slows down Puppeteer operations by the specified amount of milliseconds.",
             },
+						{
+							displayName: "Headless mode",
+							name: "headless",
+							type: "boolean",
+							required: false,
+							default: true,
+							description:
+									"When disabled, opens full browser window.",
+						},
         ],
         displayOptions: {
             show: {
@@ -151,7 +160,7 @@ const BrowserOptions: INodeProperties[] = [
             },
         },
     },
-  
+
 ]
 
 export const BrowserOperations: INodeProperties[] = [
@@ -194,7 +203,7 @@ export const BrowserOperations: INodeProperties[] = [
     },
     ...BrowserOptions,
     ...PageOperations
-   
+
 ]
 
 

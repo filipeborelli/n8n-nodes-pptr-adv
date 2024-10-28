@@ -33,15 +33,32 @@ export const pageHover = async (data: IPageHover) => {
                         }
 
                 } else {
-                        const [response] = await Promise.all([
-                                state[instance]?.page.waitForNavigation(),
-                                state[instance]?.page.hover(selector),
-                        ]);
-                        if (response?.error) {
+
+										try {	//Manual hover that works with Shadow DOM
+											const el = await state[instance]?.page.$(selector)
+											const boundingBox = await el.boundingBox()
+											const x = boundingBox.x + boundingBox.width/2
+											const y = boundingBox.y + boundingBox.height/2
+											await state[instance]?.page.mouse.move(x, y)
+
+										}
+										catch {
+											return {
+												error: "Error when hovering on selector"
+											}
+										}
+										//detect hover here (How?)
+
+                        /*const [response] = await Promise.all([
+                                //state[instance]?.page.waitForNavigation(),
+                                //state[instance]?.page.hover(selector),
+
+                        ]);*/
+                        /*if (response?.error) {
                                 return {
                                         error: response?.error || "Error to hover in the selector"
                                 }
-                        }
+                        }*/
                         return {
                                 status: "success",
                                 message: "Hover in the selector"
