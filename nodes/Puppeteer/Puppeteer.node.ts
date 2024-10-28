@@ -32,6 +32,9 @@ import { pageHover } from './puppeteer/core/pageHover';
 import { pageWaitForNavigation } from './puppeteer/core/pageWaitForNavigation';
 import { browserClose } from './puppeteer/core/browserClose';
 import { pageClose } from './puppeteer/core/pageClose';
+import { pageScreenshot } from './puppeteer/core/pageScreenshot';
+import { pageChooseFile } from './puppeteer/core/pageChooseFile';
+
 
 export class Puppeteer implements INodeType {
 	description: INodeTypeDescription = nodeDescription;
@@ -43,7 +46,7 @@ export class Puppeteer implements INodeType {
 				const returnData: INodePropertyOptions[] = [];
 
 				for (const name of deviceNames) {
-					const device = devices[name];
+					const device = (devices as any)[name];
 					returnData.push({
 						name,
 						value: name,
@@ -144,6 +147,32 @@ export class Puppeteer implements INodeType {
 				}
 			}
 
+			if (pageAction === "pageScreenshot") {
+				const filename = this.getNodeParameter('pageFilename', 0,{}) as string;
+				const result = await pageScreenshot({
+					instance,
+					filename
+				})
+
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					 }
+				}
+			}
+
 			if (pageAction === "pageClick") {
 				const iframe = this.getNodeParameter('iFrameSelector', 0,{}) as string;
 				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;
@@ -154,7 +183,7 @@ export class Puppeteer implements INodeType {
 					iframe,
 					options
 				})
-				
+
 				if(result?.error){
 					if(this.continueOnFail() !== true){
 						returnItem = {
@@ -179,7 +208,7 @@ export class Puppeteer implements INodeType {
 				const result = await pageSolveCaptcha({
 					instance
 				})
-				
+
 				if(result?.error){
 					if(this.continueOnFail() !== true){
 						returnItem = {
@@ -199,6 +228,8 @@ export class Puppeteer implements INodeType {
 				}
 			}
 
+
+
 			if (pageAction === "pageWaitForSelector") {
 				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;
 				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
@@ -208,6 +239,33 @@ export class Puppeteer implements INodeType {
 					selector,
 					iframe,
 					options
+				})
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+
+			if (pageAction === "pageChooseFile") {
+				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;
+				const filename = this.getNodeParameter('pageFilename', 0,{}) as string;
+				const result = await pageChooseFile({
+					instance,
+					selector,
+					filename
 				})
 				if(result?.error){
 					if(this.continueOnFail() !== true){
@@ -265,12 +323,16 @@ export class Puppeteer implements INodeType {
 				const code = this.getNodeParameter('pageEvaluateFunction', 0,{}) as string;
 				const args = this.getNodeParameter('evaluateArgs', 0,{}) as IDataObject;
 				const iframe = this.getNodeParameter('iFrameSelector', 0,{}) as string;
+				const selector = this.getNodeParameter('pageEvaluateSelector', 0,{}) as string;
+				const timeout = this.getNodeParameter('pageEvaluateTimeout', 0,{}) as number;
 
 				const result = await pageEvaluate({
 					instance,
 					code,
 					args,
-					iframe
+					iframe,
+					selector,
+					timeout
 				})
 				if(result?.error){
 					if(this.continueOnFail() !== true){
@@ -413,7 +475,7 @@ export class Puppeteer implements INodeType {
 
 			if (pageAction === "pageClose") {
 				const result = await pageClose({
-					instance,
+					instance
 				})
 				if(result?.error){
 					if(this.continueOnFail() !== true){
@@ -433,6 +495,7 @@ export class Puppeteer implements INodeType {
 					}
 				}
 			}
+
 			if (pageAction === "pageCookies") {
 				const result = await pageCookies({
 					instance,
@@ -514,7 +577,7 @@ export class Puppeteer implements INodeType {
 					selector,
 					iframe,
 				})
-				
+
 				if(result?.error){
 					if(this.continueOnFail() !== true){
 						returnItem = {
@@ -539,7 +602,7 @@ export class Puppeteer implements INodeType {
 					instance,
 					options
 				})
-				
+
 				if(result?.error){
 					if(this.continueOnFail() !== true){
 						returnItem = {

@@ -10,6 +10,10 @@ export interface IPageGoto {
     options?: any
 }
 
+export interface IPageScreenshot {
+	instance: string;
+	filename: string;
+}
 
 
 export interface IPageAddScriptTag {
@@ -52,6 +56,12 @@ export interface IPageClick {
     options?: any
 }
 
+export interface IPageChooseFile {
+	instance: string;
+	filename: string;
+	selector: string;
+}
+
 export interface IPageHover {
     instance: string;
     selector: string;
@@ -81,6 +91,8 @@ export interface IPageEvaluate {
     code: any;
     args?: any;
     iframe?: string;
+		selector?: string;
+		timeout?: number;
 }
 
 

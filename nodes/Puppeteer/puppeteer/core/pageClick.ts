@@ -19,7 +19,7 @@ export const pageClick = async (data: IPageClick) => {
                         }
 
                         const [response] = await Promise.all([
-                                frame.waitForNavigation(),
+                                frame.waitForNavigation(options),
                                 frame.click(selector, options),
                         ]);
                         if (response?.error) {
@@ -34,7 +34,7 @@ export const pageClick = async (data: IPageClick) => {
 
                 } else {
                         const [response] = await Promise.all([
-                                state[instance]?.page.waitForNavigation(),
+                                state[instance]?.page.waitForNavigation(options),
                                 state[instance]?.page.click(selector, options),
                         ]);
                         if (response?.error) {
@@ -53,4 +53,4 @@ export const pageClick = async (data: IPageClick) => {
                         error: error?.message || "Error to click in the selector"
                 }
         }
-}       
+}

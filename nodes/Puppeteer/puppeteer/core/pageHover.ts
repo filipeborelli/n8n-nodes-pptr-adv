@@ -53,4 +53,4 @@ export const pageHover = async (data: IPageHover) => {
                         error: error?.message || "Error to hover in the selector"
                 }
         }
-}       
+}
