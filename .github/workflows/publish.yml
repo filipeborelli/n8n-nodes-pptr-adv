@@ -1,18 +1,33 @@
-name: Publish Package to npmjs
+name: Node.js CI Publish npm
+
 on:
-  release:
-    types: [created]
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+
+    runs-on: self-hosted
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: npm run build
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - uses: actions/checkout@v3
+    - name: Set env from secrets
+      env:
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: |
+        echo "Setting environment variables from GitHub Secrets"
+
+    - name: Install dependencies
+      run: |
+        npm install
+    
+    - name: Build
+      run: |
+        npm run build
+
+    - name: Publish
+      run: |
+        echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+        npm publish --access public
