@@ -199,8 +199,6 @@ export class Puppeteer implements INodeType {
 				}
 			}
 
-			
-
 			if (pageAction === "pageWaitForSelector") {
 				const selector = this.getNodeParameter('pageSelector', 0,{}) as string;
 				const options = this.getNodeParameter('pageOptions', 0,{}) as IDataObject;
