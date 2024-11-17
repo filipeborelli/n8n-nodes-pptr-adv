@@ -6,10 +6,7 @@ export const pageClick = async (data: IPageClick) => {
 	try {
 		var page = state[instance]?.page
 		const timeout = options?.timeout || 10000;
-		const timeoutFunc = setTimeout(async () => {
-			await page.close();
-			throw new Error("Timeout to click in the selector");
-		}, timeout);
+
 		if (iframe) {
 			const frameElement = await page.$(iframe)
 			if (!frameElement) {
@@ -26,19 +23,19 @@ export const pageClick = async (data: IPageClick) => {
 			page = frame
 		}
 
-		const [response] = await Promise.all([
+		const [response, waitNavigation] = await Promise.all([
+			page.click(selector, options),
 			page.waitForNavigation({
 				waitUntil: "domcontentloaded",
 				timeout: timeout
-			}),
-			page.click(selector, options)
+			})
 		]);
-		if (response?.error) {
+		if (response?.error || waitNavigation?.error) {
 			return {
 				error: response?.error || "Error to click in the selector"
 			}
 		}
-		clearTimeout(timeoutFunc);
+	
 		return {
 			status: "success",
 			message: "Clicked in the selector"
