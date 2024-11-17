@@ -27,6 +27,10 @@ export const pageClick = async (data: IPageClick) => {
 		}
 
 		const [response] = await Promise.all([
+			page.waitForNavigation({
+				waitUntil: "domcontentloaded",
+				timeout: timeout
+			}),
 			page.click(selector, options)
 		]);
 		if (response?.error) {

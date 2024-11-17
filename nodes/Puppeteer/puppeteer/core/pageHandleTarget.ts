@@ -15,10 +15,11 @@ export const pageHandleTarget = async (data: IPageHandleTarget) => {
 			await new Promise((resolve) => browser.once("targetcreated", resolve)),
 		]);
 		const urlTarget = await target.url();
-		if(close){
-			await target.close();
-		}
+		await page.bringToFront();
 		const [response] = await page.goto(urlTarget);
+		if(close){
+			await target.page().close();
+		}
 
 		if (response?.error) {
 			return {
