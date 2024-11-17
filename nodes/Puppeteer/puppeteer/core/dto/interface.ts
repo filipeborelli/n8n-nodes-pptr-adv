@@ -56,6 +56,13 @@ export interface IPageClick {
     options?: any
 }
 
+export interface IPageHandleTarget {
+    instance: string;
+    close: boolean;
+    timeout?: number;
+}
+
+
 export interface IPageChooseFile {
 	instance: string;
 	filename: string;

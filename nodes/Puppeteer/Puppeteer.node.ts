@@ -35,6 +35,7 @@ import { browserClose } from './puppeteer/core/browserClose';
 import { pageClose } from './puppeteer/core/pageClose';
 import { pageScreenshot } from './puppeteer/core/pageScreenshot';
 import { pageChooseFile } from './puppeteer/core/pageChooseFile';
+import { pageHandleTarget } from './puppeteer/core/pageHandleTarget';
 
 
 export class Puppeteer implements INodeType {
@@ -183,6 +184,35 @@ export class Puppeteer implements INodeType {
 					selector,
 					iframe,
 					options
+				})
+
+				if(result?.error){
+					if(this.continueOnFail() !== true){
+						returnItem = {
+							json: {
+								error: result?.error
+							}
+						 }
+					}else{
+						throw new Error(result?.error)
+					}
+				}else{
+					returnItem = {
+						json: {
+							...result
+						}
+					}
+				}
+			}
+
+			if (pageAction === "pageTarget") {
+				const close = this.getNodeParameter('pageHandleTarget', 0,{}) as boolean;
+				const timeout = this.getNodeParameter('pageGenericTimeout', 0,{}) as number;
+
+				const result = await pageHandleTarget({
+					instance,
+					close,
+					timeout,
 				})
 
 				if(result?.error){
