@@ -14,10 +14,9 @@ export const pageHandleTarget = async (data: IPageHandleTarget) => {
 		const [target]: any = await Promise.all([
 			await new Promise((resolve) => browser.once("targetcreated", resolve)),
 		]);
-		const newPage = await target.page();
-		const urlTarget = newPage.url();
+		const urlTarget = await target.url();
 		if(close){
-			await newPage.close();
+			await target.close();
 		}
 		const [response] = await page.goto(urlTarget);
 
