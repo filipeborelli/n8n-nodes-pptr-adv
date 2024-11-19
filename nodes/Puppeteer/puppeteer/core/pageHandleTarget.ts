@@ -24,8 +24,7 @@ export const pageHandleTarget = async (data: IPageHandleTarget) => {
 
 		return {
 			status: "success",
-			message: "Target handled",
-			url: urlTarget
+			message: "Target handled"
 		}
 
 	} catch (error: any) {
